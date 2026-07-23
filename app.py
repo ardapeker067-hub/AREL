@@ -2,117 +2,122 @@ import streamlit as st
 from datetime import datetime, timedelta
 
 # 1. Sayfa Ayarları
-st.set_page_config(page_title="Sadece Bizim İçin", page_icon="❤️", layout="centered")
+st.set_page_config(page_title="Bizim Hikayemiz", page_icon="❤️", layout="centered")
 
-# 2. Profesyonel ve Romantik Tasarım (CSS)
+# 2. Gelişmiş Tasarım (CSS)
 st.markdown("""
     <style>
-    /* Arka plan: Yumuşak romantik geçiş */
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@1,500&display=swap');
+
     [data-testid="stAppViewContainer"] {
-        background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
+        background: linear-gradient(135deg, #fce4ec 0%, #f1f8e9 100%);
+    }
+
+    .love-text {
+        font-family: 'Playfair Display', serif;
+        font-size: 24px;
+        color: #880e4f;
+        text-align: center;
+        padding: 40px 10px;
+        line-height: 1.6;
+        font-style: italic;
+    }
+
+    .photo-frame {
+        background: white;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin-top: 50px;
+        margin-bottom: 50px;
+        transform: rotate(-1deg);
+        transition: 0.5s;
     }
     
-    /* Buzlu cam efekti (Glassmorphism) */
-    .stTabs [data-baseweb="tab-list"] {
-        background-color: rgba(255, 255, 255, 0.3);
-        border-radius: 15px;
-        padding: 10px;
+    .photo-frame:hover {
+        transform: rotate(0deg) scale(1.02);
     }
 
-    .main-card {
-        background: rgba(255, 255, 255, 0.2);
+    .counter-card {
+        background: rgba(255, 255, 255, 0.4);
         backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 25px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-        margin-bottom: 20px;
+        border-radius: 30px;
+        padding: 20px;
         text-align: center;
-        color: #4A4A4A;
+        border: 1px solid rgba(255,255,255,0.5);
+        margin-bottom: 50px;
     }
 
-    h1, h2, h3 {
-        color: #D63384 !important;
-        font-family: 'Georgia', serif;
-    }
-
-    /* Butonları özelleştirme */
     .stButton>button {
-        background-color: #D63384;
+        width: 100%;
+        background: #ad1457;
         color: white;
-        border-radius: 20px;
+        border-radius: 50px;
+        height: 3em;
+        font-weight: bold;
         border: none;
-        padding: 10px 25px;
-        transition: 0.3s;
-    }
-    .stButton>button:hover {
-        background-color: #B02A6A;
-        transform: scale(1.05);
     }
     </style>
     """, unsafe_allow_html=True)
 
-# 3. Başlık ve Sayaç
-st.markdown('<div class="main-card">', unsafe_allow_html=True)
-st.write("# ✨ Sonsuzluk Yolculuğumuz ✨")
+# 3. Müzik ve Giriş Kontrolü
+if 'play' not in st.session_state:
+    st.session_state.play = False
 
-# 960 Gün Hesabı (Statik değil, her gün artan dinamik sayaç)
-baslangic_tarihi = datetime.now() - timedelta(days=960)
-fark = datetime.now() - baslangic_tarihi
+if not st.session_state.play:
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; color: #ad1457;'>Sana Bir Sürprizim Var...</h2>", unsafe_allow_html=True)
+    if st.button("Sürprizi Başlat ❤️"):
+        st.session_state.play = True
+        st.rerun()
+else:
+    # Arka Planda Çalacak Müzik (YouTube'dan Taa Uzak Yollardan)
+    # Autoplay için küçük bir hile:
+    st.markdown("""
+        <iframe width="0" height="0" src="https://www.youtube.com/embed/S2C9X-98b-E?autoplay=1" 
+        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        """, unsafe_allow_html=True)
 
-st.write(f"### Tam {fark.days} Gündür Kalbim Seninle Atıyor...")
-st.write("Her saniyesi, her dakikası benim için çok kıymetli.")
-st.markdown('</div>', unsafe_allow_html=True)
-
-# 4. İçerik Sekmeleri
-tab1, tab2, tab3 = st.tabs(["📸 Fotoğraflarımız", "🎥 Sana Özel Video", "🎁 Aşk Kuponları"])
-
-with tab1:
-    anilar = [
-        {"img": "foto1.jpg", "not": "Gülüşün kalbimi ısıtan tek şey..."},
-        {"img": "foto2.jpg", "not": "Seninle her yer cennet bahçesi."},
-        {"img": "foto3.jpg", "not": "Elini hiç bırakmayacağım."}
-    ]
-    for ani in anilar:
-        st.markdown('<div class="main-card">', unsafe_allow_html=True)
-        try:
-            st.image(ani["img"], use_column_width=True)
-            st.write(f"*{ani['not']}*")
-        except:
-            st.write("Fotoğraf henüz yüklenmedi ❤️")
-        st.markdown('</div>', unsafe_allow_html=True)
-
-with tab2:
-    st.markdown('<div class="main-card">', unsafe_allow_html=True)
-    st.write("### Bizim Hikayemiz")
-    try:
-        # Kendi videon için (GitHub'a video.mp4 adıyla yüklediğini varsayıyorum)
-        video_file = open('video.mp4', 'rb')
-        video_bytes = video_file.read()
-        st.video(video_bytes)
-        st.write("Seninle geçen her an, izlediğim en güzel film.")
-    except:
-        st.write("Henüz video yüklenmemiş. Eğer YouTube linki koymak istersen:")
-        st.video("https://www.youtube.com/watch?v=l482T0yNkeo") # Buraya kendi linkini koyabilirsin
+    # 4. Başlık ve Sayaç
+    st.markdown('<div class="counter-card">', unsafe_allow_html=True)
+    baslangic = datetime.now() - timedelta(days=960)
+    fark = datetime.now() - baslangic
+    st.markdown(f"<h1 style='font-family: Dancing Script; color: #ad1457;'>Tam {fark.days} Gündür...</h1>", unsafe_allow_html=True)
+    st.write("Taa uzak yollardan koştum geldim senin kollarına...")
     st.markdown('</div>', unsafe_allow_html=True)
 
-with tab3:
-    st.markdown('<div class="main-card">', unsafe_allow_html=True)
-    st.write("### İstediğin An Kullanabilirsin ✨")
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("🍿 Film Gecesi"):
-            st.balloons()
-            st.success("Kupon kullanıldı! Mısırlar benden.")
-    with col2:
-        if st.button("💆‍♀️ Masaj Hediyesi"):
-            st.balloons()
-            st.success("Kupon kullanıldı! Randevu oluşturuldu.")
+    # 5. Fotoğraflar ve Romantik Sözler (Aralıklı Yapı)
     
-    if st.button("🍕 Sınırsız Yemek"):
-        st.balloons()
-        st.success("Kupon kullanıldı! İstediğin restoranı seç.")
+    # --- 1. Bölüm ---
+    st.markdown('<div class="photo-frame">', unsafe_allow_html=True)
+    st.image("foto1.jpg", use_column_width=True, caption="O ilk bakış...")
     st.markdown('</div>', unsafe_allow_html=True)
 
-# Alt Bilgi
-st.markdown("<p style='text-align: center; color: white;'>Seni çok seviyorum... ❤️</p>", unsafe_allow_html=True)
+    st.markdown('<div class="love-text">"Seninle geçen her gün, hayatımın en güzel şarkısının bir notası gibi. Taa uzak yollardan gelmişiz gibi ama hep birbirimizi beklemişiz gibi..."</div>', unsafe_allow_html=True)
+
+    # --- 2. Bölüm ---
+    st.markdown('<div class="photo-frame" style="transform: rotate(1deg);">', unsafe_allow_html=True)
+    st.image("foto2.jpg", use_column_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('<div class="love-text">"Dünya ne kadar büyük olursa olsun, benim huzur bulduğum tek yer senin yanın. Sesin, en güzel melodi kalbimde çalan."</div>', unsafe_allow_html=True)
+
+    # --- 3. Bölüm ---
+    st.markdown('<div class="photo-frame">', unsafe_allow_html=True)
+    st.image("foto3.jpg", use_column_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('<div class="love-text">"960 gün önce başlayan bu masal, sonsuza kadar sürsün diye her gün dua ediyorum. İyi ki benimlesin, iyi ki varsın sevgilim."</div>', unsafe_allow_html=True)
+
+    # 6. Video Bölümü (Opsiyonel)
+    st.write("---")
+    st.markdown("<h2 style='text-align: center; font-family: Dancing Script;'>Bizim Hikayemiz</h2>", unsafe_allow_html=True)
+    try:
+        video_file = open('video.mp4', 'rb')
+        st.video(video_file.read())
+    except:
+        st.write("*(Buraya sevgilinle olan videonu yükleyebilirsin!)*")
+
+    # 7. Kapanış
+    st.balloons()
+    st.markdown("<br><br><h3 style='text-align: center; color: #ad1457;'>Seni Seviyorum ❤️</h3><br><br>", unsafe_allow_html=True)
