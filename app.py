@@ -2,23 +2,19 @@ import streamlit as st
 from datetime import datetime, timedelta
 
 # 1. Sayfa Ayarları
-st.set_page_config(page_title="Sadece Bizim İçin ❤️", page_icon="💖", layout="centered")
+st.set_page_config(page_title="Sonsuz Aşkımıza ❤️", page_icon="💖", layout="centered")
 
-# 2. CSS: Full Hareketli Arkaplan ve Romantik Efektler
+# 2. CSS: Arkaplan, Kalpler ve Zarif Yazı Tipleri
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@1,600&display=swap');
 
-    /* Hareketli Kalp Arkaplanı */
+    /* Hareketli Arkaplan */
     [data-testid="stAppViewContainer"] {
-        background: #ffebee;
-        background-image: 
-            radial-gradient(circle at 20% 30%, rgba(255, 182, 193, 0.4) 0%, transparent 20%),
-            radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.3) 0%, transparent 20%);
-        overflow-x: hidden;
+        background: #fff5f7;
     }
 
-    /* Kalp Yağmuru Animasyonu */
+    /* Uçuşan Kalp Efekti */
     .heart-bg {
         position: fixed;
         top: -10%;
@@ -28,143 +24,129 @@ st.markdown("""
         z-index: 0;
         animation: fall linear infinite;
     }
-
     @keyframes fall {
         to { transform: translateY(110vh) rotate(360deg); }
     }
 
-    /* Kart ve Yazı Tasarımları */
-    .main-title {
-        font-family: 'Dancing Script', cursive;
-        font-size: 60px;
-        color: #ad1457;
+    /* Romantik Kart Tasarımı */
+    .card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        padding: 40px;
+        border-radius: 25px;
+        border: 1px solid #ffc1e3;
+        box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
+        margin: 100px 0;
         text-align: center;
-        margin-top: 50px;
-    }
-
-    .romantic-card {
-        background: rgba(255, 255, 255, 0.6);
-        backdrop-filter: blur(10px);
-        padding: 30px;
-        border-radius: 20px;
-        border: 2px solid rgba(255, 192, 203, 0.5);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        margin: 80px 0;
-        text-align: center;
-        z-index: 1;
         position: relative;
+        z-index: 1;
     }
 
-    .quote-text {
+    .romantic-text {
+        font-family: 'Dancing Script', cursive;
+        font-size: 32px;
+        color: #ad1457;
+        margin-bottom: 20px;
+    }
+
+    .quote {
         font-family: 'Playfair Display', serif;
-        font-size: 24px;
+        font-size: 22px;
         color: #880e4f;
         font-style: italic;
-        line-height: 1.6;
+        line-height: 1.8;
     }
 
-    .divider {
-        height: 2px;
-        background: linear-gradient(to right, transparent, #ff4081, transparent);
-        margin: 40px 0;
-    }
-
-    /* Başlat Butonu */
+    /* Dev Başlat Butonu */
     .stButton>button {
         width: 100%;
-        background: #ff4081;
+        height: 100px;
+        background: linear-gradient(45deg, #ff4081, #ec407a);
         color: white;
+        font-size: 30px !important;
+        font-family: 'Dancing Script', cursive;
         border-radius: 50px;
-        height: 4em;
-        font-size: 22px;
-        font-weight: bold;
         border: none;
-        box-shadow: 0 5px 20px rgba(255, 64, 129, 0.4);
+        box-shadow: 0 10px 20px rgba(255, 64, 129, 0.4);
+        cursor: pointer;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# Arkaplana hareket eden 30 tane kalp ekleyelim
-hearts = ""
-for i in range(30):
-    left = i * 3.3
-    delay = i * 0.7
-    duration = 5 + (i % 5)
-    size = 15 + (i % 20)
-    hearts += f'<div class="heart-bg" style="left:{left}%; animation-delay:{delay}s; animation-duration:{duration}s; font-size:{size}px;">❤️</div>'
-st.markdown(hearts, unsafe_allow_html=True)
+# Arkaplana 40 tane hareketli kalp ekle
+hearts_html = ""
+for i in range(40):
+    left = i * 2.5
+    delay = i * 0.5
+    duration = 6 + (i % 4)
+    hearts_html += f'<div class="heart-bg" style="left:{left}%; animation-delay:{delay}s; animation-duration:{duration}s;">❤️</div>'
+st.markdown(hearts_html, unsafe_allow_html=True)
 
-# 3. Müzik ve Başlatma Mantığı
-if 'started' not in st.session_state:
-    st.session_state.started = False
+# 3. Müzik ve İçerik Kontrolü
+if 'start' not in st.session_state:
+    st.session_state.start = False
 
-if not st.session_state.started:
+if not st.session_state.start:
+    # GİRİŞ EKRANI (Müziği 'tetiklemek' için şart)
     st.markdown("<br><br><br><br>", unsafe_allow_html=True)
-    st.markdown("<h1 class='main-title'>Senin İçin Küçük Bir Masal...</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center;'>Hazırsan kalbine dokunmaya geliyorum.</p>", unsafe_allow_html=True)
-    if st.button("🎁 Sürprizi Başlat"):
-        st.session_state.started = True
+    st.markdown("<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457; font-size:50px;'>Seni Bekleyen Bir Sürpriz Var...</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center; font-size:18px;'>Lütfen aşağıdaki hediye kutusuna dokun.</p>", unsafe_allow_html=True)
+    
+    if st.button("🎁 Buraya Dokun ve Müziği Dinle"):
+        st.session_state.start = True
         st.rerun()
 else:
-    # Müzik: Taa Uzak Yollardan (Otomatik çalması için YouTube Embed)
+    # --- MÜZİK: Taa Uzak Yollardan ---
+    # YouTube üzerinden otomatik başlatmalı gizli player
     st.markdown("""
-        <iframe width="0" height="0" src="https://www.youtube.com/embed/S2C9X-98b-E?autoplay=1" 
+        <iframe width="0" height="0" src="https://www.youtube.com/embed/S2C9X-98b-E?autoplay=1&loop=1&playlist=S2C9X-98b-E" 
         frameborder="0" allow="autoplay; encrypted-media"></iframe>
         """, unsafe_allow_html=True)
 
-    # 4. Giriş Ekranı
-    st.markdown("<h1 class='main-title'>960 Gün, Tek Bir Aşk...</h1>", unsafe_allow_html=True)
-    
-    # --- BÖLÜM 1: Giriş Sözü ---
-    st.markdown("""
-    <div class='romantic-card'>
-        <p class='quote-text'>"Taa uzak yollardan koştum geldim senin kollarına... <br> 
-        Hayatımın en güzel 960 gününü seninle devirdim sevgilim."</p>
-    </div>
-    """, unsafe_allow_html=True)
+    # 4. Ana İçerik
+    st.markdown("<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457; font-size:60px;'>960 Günlük Masalımız</h1>", unsafe_allow_html=True)
 
-    # --- BÖLÜM 2: FOTOĞRAF 1 ---
-    st.markdown('<div class="romantic-card">', unsafe_allow_html=True)
+    # BÖLÜM 1
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown("<p class='romantic-text'>Her Şey Seninle Başladı...</p>", unsafe_allow_html=True)
     try:
         st.image("foto1.jpg", use_column_width=True)
     except:
-        st.write("📷 Fotoğraf Yükleniyor...")
-    st.markdown("<p class='quote-text'>Seninle her şey daha renkli, her şey daha anlamlı.</p>", unsafe_allow_html=True)
+        st.write("📸 (Fotoğraf 1)")
+    st.markdown("<p class='quote'>'Taa uzak yollardan koştum geldim senin kollarına... Hayatımın en güzel kararı sendin.'</p>", unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # --- BÖLÜM 3: Romantik Bir Söz ---
-    st.markdown("<h2 style='text-align:center; font-family:Dancing Script; color:#ad1457;'>Zaman seninle duruyor...</h2>", unsafe_allow_html=True)
-
-    # --- BÖLÜM 4: FOTOĞRAF 2 ---
-    st.markdown('<div class="romantic-card">', unsafe_allow_html=True)
+    # BÖLÜM 2
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown("<p class='romantic-text'>960 Gündür Bitmeyen Huzur</p>", unsafe_allow_html=True)
+    st.markdown("<p class='quote'>Seninle geçen her gün, bir öncekinden daha güzel. Sesin dünyadaki en huzurlu melodi.</p>", unsafe_allow_html=True)
     try:
         st.image("foto2.jpg", use_column_width=True)
     except:
-        st.write("📷 Fotoğraf Yükleniyor...")
-    st.markdown("<p class='quote-text'>Gözlerindeki o huzuru hiçbir şeye değişmem.</p>", unsafe_allow_html=True)
+        st.write("📸 (Fotoğraf 2)")
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # --- BÖLÜM 5: VİDEO (EN ÖZEL AN) ---
-    st.markdown("<h2 style='text-align:center; font-family:Dancing Script; color:#ad1457;'>Bizim Hikayemiz</h2>", unsafe_allow_html=True)
-    st.markdown('<div class="romantic-card">', unsafe_allow_html=True)
+    # BÖLÜM 3 (VİDEO)
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown("<p class='romantic-text'>Bizim En Özel Anımız</p>", unsafe_allow_html=True)
     try:
         video_file = open('video.mp4', 'rb')
         st.video(video_file.read())
-        st.write("Her karesinde aşkımız saklı...")
     except:
-        st.error("video.mp4 bulunamadı, ama kalbimde her anın kayıtlı! ❤️")
+        st.error("Kanka video.mp4 dosyasını GitHub'a yüklemeyi unutma!")
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # --- BÖLÜM 6: FOTOĞRAF 3 ---
-    st.markdown('<div class="romantic-card">', unsafe_allow_html=True)
+    # BÖLÜM 4
+    st.markdown('<div class="card">', unsafe_allow_html=True)
     try:
         st.image("foto3.jpg", use_column_width=True)
     except:
-        st.write("📷 Fotoğraf Yükleniyor...")
-    st.markdown("<p class='quote-text'>Sonsuza kadar sadece sen ve ben...</p>", unsafe_allow_html=True)
+        st.write("📸 (Fotoğraf 3)")
+    st.markdown("<p class='romantic-text'>Sonsuza Kadar...</p>", unsafe_allow_html=True)
+    st.markdown("<p class='quote'>Seni her gün, her saat, her saniye daha çok seveceğime söz veriyorum.</p>", unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # --- FİNAL ---
+    # FİNAL
     st.balloons()
-    st.markdown("<h1 class='main-title'>Seni Çok Seviyorum!</h1>", unsafe_allow_html=True)
-    st.markdown("<div style='height: 200px;'></div>", unsafe_allow_html=True) # Sayfayı uzatmak için boşluk
+    st.markdown("<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457; font-size:70px;'>Seni Çok Seviyorum!</h1>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 300px;'></div>", unsafe_allow_html=True)
