@@ -4,7 +4,7 @@ import random
 # 1. Sayfa Ayarları
 st.set_page_config(page_title="Sonsuz Aşkımıza ❤️", page_icon="💖", layout="centered")
 
-# 2. CSS: Fotoğraf Boyutu Kontrolü ve Tasarım
+# 2. CSS: Fotoğraf Boyutu, Boşluklar ve Tasarım
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@1&display=swap');
@@ -18,24 +18,27 @@ st.markdown("""
         border-right: 3px solid #ffc1e3;
     }
 
-    /* FOTOĞRAF KARTLARI - Boyutu buradan kontrol ediyoruz */
+    /* FOTOĞRAF KARTLARI - Boyutu buradan küçülttük */
     .photo-card {
-        max-width: 450px; /* Fotoğrafların maksimum genişliği */
-        margin: 30px auto; /* Ortalamak için */
-        padding: 15px;
+        max-width: 380px; /* Fotoğraflar daha kibar ve küçük oldu */
+        margin: 50px auto 20px auto; /* Üstten 50px boşluk bırakarak birbirinden uzaklaştırdık */
+        padding: 12px;
         background: white;
-        border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         text-align: center;
-        border: 5px solid white; /* Polaroid havası */
+        border: 10px solid white; /* Polaroid çerçevesini kalınlaştırdık */
     }
 
+    /* ROMANTİK SÖZLER - Boşlukları artırdık */
     .romantic-text {
         font-family: 'Dancing Script', cursive;
-        font-size: 26px;
+        font-size: 28px;
         color: #ad1457;
         text-align: center;
-        padding: 15px;
+        padding: 60px 20px; /* Üstten ve alttan 60px boşluk (Fotoğraflar arası mesafe) */
+        line-height: 1.4;
+        font-weight: bold;
     }
 
     /* Kalp Efekti */
@@ -68,21 +71,38 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- 3. FOTOĞRAF LİSTELERİ (BURAYA TÜM FOTOĞRAFLARI EKLE) ---
-# Kanka buradaki tırnakların içine GitHub'daki TÜM fotoğraflarının adını ekle.
-# Ne kadar eklersen kod o kadar fotoğrafı otomatik dizecek.
+# --- 3. FOTOĞRAF LİSTELERİ ---
 dosyalar_2023 = ["2023_1.jpg", "2023_2.jpg", "2023_3.jpg", "2023_4.jpg"] 
 dosyalar_2024 = ["2024_1.jpg", "2024_2.jpg", "2024_3.jpg", "2024_4.jpg", "2024_5.jpg"]
 dosyalar_2025 = ["2025_1.jpg", "2025_2.jpg"]
 
-# Rastgele Romantik Sözler (Fotoğraflar arasına serpiştirmek için)
+# GENİŞLETİLMİŞ ROMANTİK SÖZLER
 sozler = [
-    "Seninle her an bir başka güzel...",
-    "Gülüşün kalbimdeki en güzel manzara.",
-    "İyi ki hayatımdasın sevgilim.",
-    "960 gün değil, bir ömür yetmez sana.",
-    "Ellerini hiç bırakmayacağım.",
-    "Taa uzak yollardan koştum geldim..."
+    "Seninle geçen her saniye, hayatımın en değerli hazinesi...",
+    "Gözlerine her baktığımda, geleceğimi görüyorum.",
+    "Dünyadaki en güvenli yer, senin yanın sevgilim.",
+    "960 gündür kalbim sadece senin için çarpıyor.",
+    "Sen benim gökyüzündeki en parlak yıldızımsın.",
+    "İyi ki varsın, iyi ki benimlesin. Seni her şeyden çok seviyorum.",
+    "Seninle yaşlanmak, hayallerimin tek gerçeği.",
+    "Gülüşün kalbimdeki tüm kışı bahara çeviriyor.",
+    "Ellerini tuttuğumda dünya duruyor sanki...",
+    "Sen benim hayatımın en güzel 'iyi ki'sisin.",
+    "Aşk seninle anlam buldu kalbimde.",
+    "Ömrümün geri kalanı seninle olsun, başka bir şey istemem.",
+    "Her yeni güne seninle uyanmak, hayata yeniden başlamak gibi.",
+    "Sana olan sevgim kelimelere sığmayacak kadar büyük.",
+    "Sen benim evimsin, huzurumsun, her şeyimsin.",
+    "Gönlümün sultanı, ömrümün baharı...",
+    "Seninle geçen 960 gün, binlerce ömre bedel.",
+    "Kalbimdeki en güzel ritim senin adın.",
+    "Ruhum ruhuna sarılınca çiçek açıyor her yer.",
+    "Seni sevmek, nefes almak kadar doğal ve vazgeçilmez.",
+    "Hayatımın en güzel manzarasını senin gözlerinde izliyorum.",
+    "Varlığın dünyadaki tüm renkleri canlandırıyor.",
+    "Sen benim imkansızım değil, mucizemsin.",
+    "Bin yıl yaşasam, bin yıl seni severdim.",
+    "Yanında çocuk gibi mutlu, seninle dev gibi güçlüyüm."
 ]
 
 # --- 4. YAN PANEL VE SAYFA TAKİBİ ---
@@ -107,13 +127,19 @@ if st.session_state.m:
         st.sidebar.audio("sarki.mp3")
     except: st.sidebar.error("Müzik dosyası bulunamadı.")
 
-# --- 5. İÇERİK DÖNGÜSÜ (OTOMATİK DİZİCİ) ---
+# --- 5. İÇERİK DÖNGÜSÜ ---
 
 def album_olustur(yıl, liste):
-    st.markdown(f"<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457;'>✨ {yıl} Hatıralarımız</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457; padding-bottom:30px;'>✨ {yıl} Hatıralarımız</h1>", unsafe_allow_html=True)
     
+    # Her yıl sayfası için sözleri karıştır ki her seferinde farklı gelsin
+    secilen_sozler = random.sample(sozler, min(len(sozler), len(liste) + 1))
+
     for i, foto in enumerate(liste):
-        # Her fotoğrafı bir kart içine alıyoruz
+        # Önce söz (İlk fotoğraftan önce de bir söz çıksın diye)
+        st.markdown(f"<div class='romantic-text'>“ {secilen_sozler[i]} ”</div>", unsafe_allow_html=True)
+        
+        # Sonra fotoğraf kartı
         st.markdown('<div class="photo-card">', unsafe_allow_html=True)
         try:
             st.image(foto, use_column_width=True)
@@ -121,18 +147,22 @@ def album_olustur(yıl, liste):
             st.write(f"⚠️ {foto} yüklenemedi.")
         st.markdown('</div>', unsafe_allow_html=True)
         
-        # Her fotoğraftan sonra romantik bir süs ve söz ekle
-        if i < len(liste) - 1: # Son fotoğraftan sonra söz koyma
-            st.markdown(f"<div class='romantic-text'>✨ {random.choice(sozler)} ✨</div>", unsafe_allow_html=True)
-            st.markdown("<div style='text-align:center; opacity:0.5;'>🌸 ❤️ 🌸</div>", unsafe_allow_html=True)
+        # Ayırıcı simge
+        st.markdown("<div style='text-align:center; opacity:0.6; font-size:20px; margin-top:20px;'>🌸 ❤️ 🌸</div>", unsafe_allow_html=True)
 
 # Sayfa gösterimi
 if st.session_state.page == "Ana Sayfa":
-    st.markdown("<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457; font-size:50px;'>960 Günlük Hikayemiz</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457; font-size:55px; margin-top:50px;'>960 Günlük Hikayemiz</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center; font-family:Dancing Script; font-size:26px; color:#ad1457;'>Zaman geçiyor ama sana olan aşkım her gün daha da büyüyor...</p>", unsafe_allow_html=True)
+    
     st.markdown('<div class="photo-card">', unsafe_allow_html=True)
-    st.image("foto1.jpg", use_column_width=True)
+    try:
+        st.image("foto1.jpg", use_column_width=True)
+    except:
+        st.write("Ana sayfa fotoğrafı (foto1.jpg) bulunamadı.")
     st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center; font-family:Dancing Script; font-size:24px;'>Sol taraftaki menüden yıllara göre tüm anılarımızı izleyebilirsin sevgilim... ❤️</p>", unsafe_allow_html=True)
+    
+    st.markdown("<p style='text-align:center; font-family:Dancing Script; font-size:22px; padding:30px;'>Yandaki menüden yıllara tıklayarak geçmişimize yolculuk yapabilirsin aşkım. ❤️</p>", unsafe_allow_html=True)
 
 elif st.session_state.page == "2023":
     album_olustur("2023", dosyalar_2023)
@@ -146,6 +176,6 @@ elif st.session_state.page == "2025":
     album_olustur("2025", dosyalar_2025)
     st.balloons()
 
-# Arkaplan Kalpleri (20 adet)
-for i in range(20):
-    st.markdown(f'<div class="heart-bg" style="left:{i*5}%; animation-delay:{i*0.4}s; animation-duration:{6+i%3}s;">❤️</div>', unsafe_allow_html=True)
+# Arkaplan Kalpleri (25 adet)
+for i in range(25):
+    st.markdown(f'<div class="heart-bg" style="left:{i*4}%; animation-delay:{i*0.3}s; animation-duration:{7+i%4}s;">❤️</div>', unsafe_allow_html=True)
