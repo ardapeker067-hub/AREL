@@ -27,7 +27,7 @@ st.markdown("""
         to { transform: translateY(110vh) rotate(360deg); }
     }
 
-    /* Fotoğraf Araları (150px boşluk) */
+    /* Fotoğraf Kartları (150px boşluk) */
     .photo-card {
         margin-top: 150px;
         margin-bottom: 150px;
@@ -64,12 +64,11 @@ st.markdown("""
         font-family: 'Dancing Script', cursive;
         font-size: 18px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        cursor: pointer;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# Kalp Animasyonu
+# Kalp Yağmuru
 for i in range(30):
     left = i * 3.3
     st.markdown(f'<div class="heart-bg" style="left:{left}%; animation-delay:{i*0.5}s; animation-duration:{6+i%4}s;">❤️</div>', unsafe_allow_html=True)
@@ -84,11 +83,11 @@ if st.button("🎫 Müzik Bileti"):
     st.session_state.music_open = not st.session_state.music_open
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Bilet açılınca müzik player çıkar
 if st.session_state.music_open:
-    st.info("🎵 Nilüfer - Taa Uzak Yollardan çalıyor...")
-    # En garantisi YouTube embed kullanımıdır:
-    st.video("https://www.youtube.com/watch?v=S2C9X-98b-E")
+    st.markdown("🎵 **Nilüfer - Taa Uzak Yollardan** çalıyor...")
+    # Yeni ve daha kararlı bir link deniyoruz (YouTube embed hatasını önlemek için)
+    # Eğer bu da "Video unavailable" derse, YouTube o videonun dış sitelerde oynatılmasını yasaklamıştır.
+    st.video("https://www.youtube.com/watch?v=R_pY_1D_wWw") 
 
 # 4. Ana İçerik
 st.markdown("<h1 style='text-align: center; font-family: Dancing Script; color: #ad1457; font-size: 60px;'>960 Günlük Hikayemiz</h1>", unsafe_allow_html=True)
@@ -98,7 +97,7 @@ st.markdown('<div class="photo-card">', unsafe_allow_html=True)
 try:
     st.image("foto1.jpg", use_column_width=True)
 except:
-    st.write("📸 foto1.jpg bulunamadı")
+    st.write("📸 foto1.jpg yüklenemedi")
 st.markdown('</div>', unsafe_allow_html=True)
 st.markdown('<div class="romantic-text">"Taa uzak yollardan koştum geldim..."</div>', unsafe_allow_html=True)
 
@@ -107,19 +106,19 @@ st.markdown('<div class="photo-card">', unsafe_allow_html=True)
 try:
     st.image("foto2.jpg", use_column_width=True)
 except:
-    st.write("📸 foto2.jpg bulunamadı")
+    st.write("📸 foto2.jpg yüklenemedi")
 st.markdown('</div>', unsafe_allow_html=True)
-st.markdown('<div class="romantic-text">"960 gündür kalbimdeki en güzel şarkısın."</div>', unsafe_allow_html=True)
+st.markdown('<div class="romantic-text">"Her anımızda sen varsın."</div>', unsafe_allow_html=True)
 
-# --- VİDEO BÖLÜMÜ (HATA DÜZELTME) ---
-st.markdown("<h2 style='text-align: center; font-family: Dancing Script; color: #ad1457;'>Bizim En Özel Anımız</h2>", unsafe_allow_html=True)
+# --- KENDİ VİDEONUZ (Önemli Bölüm) ---
+st.markdown("<h2 style='text-align: center; font-family: Dancing Script; color: #ad1457;'>Bizim Hikayemiz</h2>", unsafe_allow_html=True)
 st.markdown('<div class="photo-card">', unsafe_allow_html=True)
 try:
-    # GitHub'da dosya adı TAM OLARAK video.mp4 olmalı
+    # GitHub'a yüklediğin video.mp4 burayı çalıştırır
     video_file = open('video.mp4', 'rb')
     st.video(video_file.read())
-except Exception as e:
-    st.error("Video Dosyası Hatası: GitHub'a 'video.mp4' isminde bir dosya yüklediğinden emin ol kanka!")
+except:
+    st.error("Kendi videon (video.mp4) henüz yüklenmemiş kanka.")
 st.markdown('</div>', unsafe_allow_html=True)
 
 # --- FOTO 3 ---
@@ -127,7 +126,7 @@ st.markdown('<div class="photo-card">', unsafe_allow_html=True)
 try:
     st.image("foto3.jpg", use_column_width=True)
 except:
-    st.write("📸 foto3.jpg bulunamadı")
+    st.write("📸 foto3.jpg yüklenemedi")
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Final
