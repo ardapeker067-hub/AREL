@@ -4,7 +4,7 @@ import random
 # 1. Sayfa Ayarları
 st.set_page_config(page_title="Sonsuz Aşkımıza ❤️", page_icon="💖", layout="centered")
 
-# 2. CSS: Tasarım, Boyutlar ve Yeni Alt Bölüm
+# 2. CSS: Fotoğrafları Küçültme ve Yoğun Yazı Tasarımı
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@1&display=swap');
@@ -15,43 +15,42 @@ st.markdown("""
     
     [data-testid="stSidebar"] {
         background: linear-gradient(180deg, #ffebee 0%, #fce4ec 100%);
-        border-right: 3px solid #ffc1e3;
     }
 
-    /* FOTOĞRAF KARTLARI - Boyutu biraz daha küçülttük (320px) */
+    /* FOTOĞRAF KARTLARI - İyice Küçültüldü (280px) */
     .photo-card {
-        max-width: 320px; 
-        margin: 40px auto 10px auto; 
-        padding: 10px;
+        max-width: 280px; 
+        margin: 20px auto; 
+        padding: 8px;
         background: white;
-        border-radius: 8px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        border-radius: 5px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         text-align: center;
-        border: 8px solid white;
+        border: 10px solid white; /* Polaroid efekti */
     }
 
-    /* Romantik Sözler (Fotoğraf Araları) */
+    /* Romantik Kısa Sözler */
     .romantic-text {
         font-family: 'Dancing Script', cursive;
         font-size: 24px;
         color: #ad1457;
         text-align: center;
-        padding: 40px 10px;
-        line-height: 1.3;
+        padding: 30px 10px;
+        line-height: 1.4;
     }
 
-    /* EN ALTTAKİ ÖZEL MESAJ (Satır Satır) */
-    .final-poem {
+    /* Şiirsel Uzun Metinler */
+    .poem-text {
         font-family: 'Playfair Display', serif;
-        font-size: 22px;
+        font-size: 20px;
         font-style: italic;
         color: #880e4f;
         text-align: center;
-        margin-top: 100px;
-        margin-bottom: 50px;
-        line-height: 2;
-        padding: 30px;
+        padding: 50px 20px;
+        line-height: 1.8;
+        border-bottom: 1px solid #ffc1e3;
         border-top: 1px solid #ffc1e3;
+        margin: 40px 0;
     }
 
     /* Kalp Efekti */
@@ -69,79 +68,89 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- 3. VERİLER ---
-dosyalar_2023 = ["2023_1.jpg", "2023_2.jpg", "2023_3.jpg", "2023_4.jpg"] 
+# --- 3. BÜYÜK SÖZ HAVUZU (Burayı istediğin kadar uzatabilirsin) ---
+kisa_sozler = [
+    "Gülüşün, dünyadaki tüm karanlıkları aydınlatıyor sevgilim.",
+    "Seninle geçen 960 gün, ömrümün en güzel masalı.",
+    "Ellerini tuttuğum an, zamanın durmasını istiyorum.",
+    "Kalbimdeki tek ritim, senin adın.",
+    "İyi ki hayatımdasın, iyi ki benimlesin...",
+    "Seni sevmek, nefes almak kadar doğal benim için.",
+    "Gözlerine baktığımda huzuru görüyorum.",
+    "960 gündür her sabah seninle yeniden doğuyorum.",
+    "Sen benim evimsin, en huzurlu limanımsın.",
+    "Dünyanın en güzel manzarası, senin yüzün."
+]
+
+uzun_sozler = [
+    "Biliyorum ki biz, birbirine geç kalmış iki ruhun nihayet kavuşmasıyız. Seninle geçen her dakika, her anı zihnime altın harflerle kazındı. İyi ki varsın...",
+    "Zaman akıp gidiyor ama sana olan aşkım her geçen saniye daha da kök salıyor. 960 gün önce başlayan bu yolculuk, sonsuza kadar sürsün istiyorum.",
+    "Sen sadece sevdiğim değil, aynı zamanda en yakın arkadaşım, sırdaşım ve dünyamsın. Seninle her şey o kadar kolay ve güzel ki...",
+    "Hangi kelime senin güzelliğini anlatmaya yeter? Hangi şiir senin kalbinin temizliğini tarif edebilir? Ben sadece seni yaşamayı seçiyorum.",
+    "Bazen sadece oturup seni izlemek istiyorum. Dünyanın bütün karmaşası içinde bulduğum en büyük sessizlik ve huzursun sen."
+]
+
+final_notlari = {
+    "2023": "2023 bizim için bir başlangıcın, kök salmanın yılıydı. Her anı pırlanta değerinde...",
+    "2024": "2024'te daha çok büyüdük, daha çok güldük. Zorlukları beraber aştık, aşkımızı taçlandırdık.",
+    "2025": "2025 bizim yılımız olacak. El ele, omuz omuza daha nice güzel günlere...",
+}
+
+# --- 4. VERİLER ---
+dosyalar_2023 = ["2023_1.jpg", "2023_2.jpg", "2023_3.jpg", "2023_4.jpg"]
 dosyalar_2024 = ["2024_1.jpg", "2024_2.jpg", "2024_3.jpg", "2024_4.jpg", "2024_5.jpg"]
 dosyalar_2025 = ["2025_1.jpg", "2025_2.jpg"]
 
-sozler = [
-    "Seninle her an bir başka güzel...",
-    "Gülüşün kalbimdeki en güzel manzara.",
-    "İyi ki hayatımdasın sevgilim.",
-    "960 gün değil, bir ömür yetmez sana.",
-    "Ellerini hiç bırakmayacağım.",
-    "Gözlerin, kaybolmak istediğim tek yer."
-]
-
-# --- 4. NAVİGASYON ---
-if 'page' not in st.session_state:
-    st.session_state.page = "Ana Sayfa"
-
-with st.sidebar:
-    st.markdown("<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457;'>🗓️ Menü</h1>", unsafe_allow_html=True)
-    if st.button("🏠 Ana Sayfa"): st.session_state.page = "Ana Sayfa"
-    if st.button("📅 2023"): st.session_state.page = "2023"
-    if st.button("📅 2024"): st.session_state.page = "2024"
-    if st.button("📅 2025"): st.session_state.page = "2025"
-    
-    st.sidebar.markdown("---")
-    if st.sidebar.button("🎫 Müzik Aç/Kapat"):
-        if 'm' not in st.session_state: st.session_state.m = False
-        st.session_state.m = not st.session_state.m
-
-    if st.session_state.get('m', False):
-        try: st.sidebar.audio("sarki.mp3")
-        except: st.sidebar.error("Müzik yüklenemedi.")
-
-# --- 5. İÇERİK FONKSİYONU ---
-
-def final_mesaji():
-    st.markdown("""
-        <div class="final-poem">
-            Birlikte geçen tam 960 gün...<br>
-            Her sabah seninle uyandığım hayallere,<br>
-            Her akşam sesinle bulduğum huzura şükrediyorum.<br>
-            Sen benim hayatımın en güzel şiiri,<br>
-            Hiç bitmeyecek en mutlu hikayemsin.<br>
-            Seni her geçen gün, bir öncekinden daha çok...<br>
-            Sonsuza kadar seviyorum. ❤️
-        </div>
-    """, unsafe_allow_html=True)
+# --- 5. İÇERİK OLUŞTURUCU ---
 
 def album_olustur(yıl, liste):
-    st.markdown(f"<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457;'>✨ {yıl} Yılı</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457; font-size:40px;'>✨ {yıl} Anılarımız</h1>", unsafe_allow_html=True)
+    
+    # Başlangıca uzun bir romantik giriş
+    st.markdown(f"<div class='poem-text'>{random.choice(uzun_sozler)}</div>", unsafe_allow_html=True)
+
     for i, foto in enumerate(liste):
-        st.markdown(f"<div class='romantic-text'>“ {random.choice(sozler)} ”</div>", unsafe_allow_html=True)
+        # Her fotoğraftan önce kısa bir söz
+        st.markdown(f"<div class='romantic-text'>{random.choice(kisa_sozler)}</div>", unsafe_allow_html=True)
+        
+        # Küçük Fotoğraf Kartı
         st.markdown('<div class="photo-card">', unsafe_allow_html=True)
         try:
             st.image(foto, use_column_width=True)
         except:
-            st.write(f"🖼️ {foto} (Fotoğraf buraya gelecek)")
+            st.write(f"🖼️ {foto}")
         st.markdown('</div>', unsafe_allow_html=True)
-    
-    # Her sayfanın altına o romantik finali ekleyelim
-    final_mesaji()
+        
+        # Araya serpiştirilen rastgele uzun metinler (Her 2 fotoda bir)
+        if i % 2 == 0 and i != 0:
+            st.markdown(f"<div class='poem-text'>{random.choice(uzun_sozler)}</div>", unsafe_allow_html=True)
 
-# --- 6. SAYFALAR ---
+    # SAYFA SONU - O yıla özel farklı final sözü
+    st.markdown(f"<div class='poem-text' style='background:#fce4ec;'>🌟 {final_notlari[yıl]} <br><br> Seni seviyorum...</div>", unsafe_allow_html=True)
 
+# --- 6. NAVİGASYON ---
+if 'page' not in st.session_state: st.session_state.page = "Ana Sayfa"
+
+with st.sidebar:
+    st.markdown("<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457;'>❤️ Aşk Defterimiz</h1>", unsafe_allow_html=True)
+    if st.button("🏠 Başlangıç"): st.session_state.page = "Ana Sayfa"
+    if st.button("📅 2023 Yılı"): st.session_state.page = "2023"
+    if st.button("📅 2024 Yılı"): st.session_state.page = "2024"
+    if st.button("📅 2025 Yılı"): st.session_state.page = "2025"
+
+# --- 7. SAYFALAR ---
 if st.session_state.page == "Ana Sayfa":
-    st.markdown("<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457; font-size:45px;'>Seni Çok Seviyorum...</h1>", unsafe_allow_html=True)
-    st.markdown('<div class="photo-card">', unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457; font-size:50px;'>960 Günlük Mucizemiz</h1>", unsafe_allow_html=True)
+    
+    st.markdown(f"<div class='poem-text'>{random.choice(uzun_sozler)}</div>", unsafe_allow_html=True)
+    
+    st.markdown('<div class="photo-card" style="max-width:350px;">', unsafe_allow_html=True)
     try: st.image("foto1.jpg", use_column_width=True)
-    except: st.write("Ana Sayfa Fotoğrafı")
+    except: st.write("Ana Sayfa Resmi")
     st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center; font-family:Dancing Script; font-size:22px;'>960 gündür yazdığımız bu hikayeye hoş geldin sevgilim.</p>", unsafe_allow_html=True)
-    final_mesaji()
+    
+    st.markdown(f"<div class='romantic-text'>Seninle her şey daha güzel, her şey daha anlamlı...</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='poem-text'>Bu sayfalar bizim hikayemizi anlatıyor sevgilim. Sol taraftan yılları seçerek hatıralarımız arasında kaybolabilirsin.</div>", unsafe_allow_html=True)
 
 elif st.session_state.page == "2023":
     album_olustur("2023", dosyalar_2023)
