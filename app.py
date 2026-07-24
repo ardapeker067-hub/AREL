@@ -4,12 +4,11 @@ from datetime import datetime, timedelta
 # 1. Sayfa Ayarları
 st.set_page_config(page_title="Sonsuz Aşkımıza ❤️", page_icon="💖", layout="centered")
 
-# 2. CSS: Arka Plan, Kalpler, Bilet ve Fotoğraf Araları
+# 2. CSS: Arka Plan, Kalpler ve Yatay Bilet
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@1&display=swap');
 
-    /* Arkaplan */
     [data-testid="stAppViewContainer"] {
         background: #fff5f7;
     }
@@ -28,32 +27,31 @@ st.markdown("""
         to { transform: translateY(110vh) rotate(360deg); }
     }
 
-    /* FOTOĞRAF ÇERÇEVELERİ VE ARALIKLAR */
-    .photo-wrapper {
+    /* Fotoğraf Araları (150px boşluk) */
+    .photo-card {
         margin-top: 150px;
         margin-bottom: 150px;
-        padding: 15px;
+        padding: 20px;
         background: white;
-        border-radius: 15px;
-        box-shadow: 0 15px 45px rgba(0,0,0,0.1);
-        position: relative;
-        z-index: 1;
-    }
-
-    .romantic-quote {
-        font-family: 'Dancing Script', cursive;
-        font-size: 34px;
-        color: #ad1457;
+        border-radius: 20px;
+        box-shadow: 0 15px 50px rgba(0,0,0,0.1);
         text-align: center;
-        margin: 60px 0;
+        z-index: 1;
+        position: relative;
     }
 
-    /* SAĞDAKİ YAN DURAN BİLET BUTONU */
-    .ticket-trigger {
+    .romantic-text {
+        font-family: 'Dancing Script', cursive;
+        font-size: 35px;
+        color: #ad1457;
+        margin: 50px 0;
+    }
+
+    /* SAĞDA YATAY DURAN BİLET BUTONU */
+    .ticket-fixed {
         position: fixed;
-        right: -15px;
+        right: 10px;
         top: 50%;
-        transform: translateY(-50%);
         z-index: 9999;
     }
     
@@ -61,103 +59,78 @@ st.markdown("""
         background: #ff4081;
         color: white;
         border: 2px dashed white;
-        border-radius: 15px 0 0 15px;
-        padding: 30px 15px;
-        writing-mode: vertical-rl;
-        text-orientation: mixed;
+        border-radius: 10px;
+        padding: 10px 20px;
         font-family: 'Dancing Script', cursive;
-        font-size: 20px;
-        box-shadow: -5px 5px 20px rgba(0,0,0,0.3);
+        font-size: 18px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         cursor: pointer;
-    }
-
-    /* MÜZİK PANELİ */
-    .music-box {
-        background: white;
-        border-radius: 20px;
-        padding: 20px;
-        border: 2px solid #ff4081;
-        text-align: center;
-        margin-bottom: 50px;
-        box-shadow: 0 10px 25px rgba(255, 64, 129, 0.2);
     }
     </style>
     """, unsafe_allow_html=True)
 
-# Hareketli Kalpleri Ekleme
-for i in range(35):
-    left = i * 2.8
-    delay = i * 0.5
-    st.markdown(f'<div class="heart-bg" style="left:{left}%; animation-delay:{delay}s; animation-duration:{7+i%3}s;">❤️</div>', unsafe_allow_html=True)
+# Kalp Animasyonu
+for i in range(30):
+    left = i * 3.3
+    st.markdown(f'<div class="heart-bg" style="left:{left}%; animation-delay:{i*0.5}s; animation-duration:{6+i%4}s;">❤️</div>', unsafe_allow_html=True)
 
-# 3. Müzik ve Bilet Mantığı
-if 'music_ready' not in st.session_state:
-    st.session_state.music_ready = False
+# 3. Müzik Bileti Mantığı
+if 'music_open' not in st.session_state:
+    st.session_state.music_open = False
 
-# Sağdaki Bilet
-st.markdown('<div class="ticket-trigger">', unsafe_allow_html=True)
-if st.button("🎫 MÜZİK BİLETİ"):
-    st.session_state.music_ready = True
+# Sağ tarafta yatay bilet
+st.markdown('<div class="ticket-fixed">', unsafe_allow_html=True)
+if st.button("🎫 Müzik Bileti"):
+    st.session_state.music_open = not st.session_state.music_open
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Bilet Çekilince Açılan Müzik Paneli
-if st.session_state.music_ready:
-    st.markdown('<div class="music-box">', unsafe_allow_html=True)
-    st.markdown("<h3 style='color: #ad1457; font-family: Dancing Script;'>🎵 Bizim Şarkımız Çalsın mı?</h3>", unsafe_allow_html=True)
-    
-    # Kanka buraya şarkının internet üzerindeki bir MP3 linkini koydum (Nilüfer - Taa Uzak Yollardan)
-    # Eğer elinde mp3 dosyası varsa GitHub'a yukleyip 'sarki.mp3' yazarak da kullanabilirsin.
-    audio_url = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" # TEST İÇİN (Burayı değiştir)
-    # Kendi MP3 dosyan varsa GitHub'a at ve alttaki satırı kullan:
-    # st.audio("sarki.mp3") 
-    
-    # Gerçek YouTube müziğini en sağlam şekilde buraya koyuyoruz:
+# Bilet açılınca müzik player çıkar
+if st.session_state.music_open:
+    st.info("🎵 Nilüfer - Taa Uzak Yollardan çalıyor...")
+    # En garantisi YouTube embed kullanımıdır:
     st.video("https://www.youtube.com/watch?v=S2C9X-98b-E")
-    st.write("Yukarıdaki videodan müziği başlatıp anılarımıza kaydırabilirsin... ❤️")
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # 4. Ana İçerik
-st.markdown("<h1 style='text-align: center; font-family: Dancing Script; color: #ad1457; font-size: 60px;'>960 Günlük Masalımız</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; font-family: Dancing Script; color: #ad1457; font-size: 60px;'>960 Günlük Hikayemiz</h1>", unsafe_allow_html=True)
 
 # --- FOTO 1 ---
-st.markdown('<div class="photo-wrapper">', unsafe_allow_html=True)
+st.markdown('<div class="photo-card">', unsafe_allow_html=True)
 try:
     st.image("foto1.jpg", use_column_width=True)
 except:
-    st.write("📸 Fotoğraf 1 Yükleniyor...")
+    st.write("📸 foto1.jpg bulunamadı")
 st.markdown('</div>', unsafe_allow_html=True)
-
-st.markdown('<div class="romantic-quote">"Taa uzak yollardan koştum geldim senin kollarına..."</div>', unsafe_allow_html=True)
+st.markdown('<div class="romantic-text">"Taa uzak yollardan koştum geldim..."</div>', unsafe_allow_html=True)
 
 # --- FOTO 2 ---
-st.markdown('<div class="photo-wrapper">', unsafe_allow_html=True)
+st.markdown('<div class="photo-card">', unsafe_allow_html=True)
 try:
     st.image("foto2.jpg", use_column_width=True)
 except:
-    st.write("📸 Fotoğraf 2 Yükleniyor...")
+    st.write("📸 foto2.jpg bulunamadı")
 st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('<div class="romantic-text">"960 gündür kalbimdeki en güzel şarkısın."</div>', unsafe_allow_html=True)
 
-st.markdown('<div class="romantic-quote">"960 gündür her sabah seninle olduğum için şükrediyorum."</div>', unsafe_allow_html=True)
-
-# --- VİDEO BÖLÜMÜ ---
-st.markdown("<h2 style='text-align: center; font-family: Dancing Script; color: #ad1457;'>Bizim Hikayemiz</h2>", unsafe_allow_html=True)
-st.markdown('<div class="photo-wrapper">', unsafe_allow_html=True)
+# --- VİDEO BÖLÜMÜ (HATA DÜZELTME) ---
+st.markdown("<h2 style='text-align: center; font-family: Dancing Script; color: #ad1457;'>Bizim En Özel Anımız</h2>", unsafe_allow_html=True)
+st.markdown('<div class="photo-card">', unsafe_allow_html=True)
 try:
+    # GitHub'da dosya adı TAM OLARAK video.mp4 olmalı
     video_file = open('video.mp4', 'rb')
     st.video(video_file.read())
-except:
-    st.error("video.mp4 GitHub'da bulunamadı!")
+except Exception as e:
+    st.error("Video Dosyası Hatası: GitHub'a 'video.mp4' isminde bir dosya yüklediğinden emin ol kanka!")
 st.markdown('</div>', unsafe_allow_html=True)
 
 # --- FOTO 3 ---
-st.markdown('<div class="photo-wrapper">', unsafe_allow_html=True)
+st.markdown('<div class="photo-card">', unsafe_allow_html=True)
 try:
     st.image("foto3.jpg", use_column_width=True)
 except:
-    st.write("📸 Fotoğraf 3 Yükleniyor...")
+    st.write("📸 foto3.jpg bulunamadı")
 st.markdown('</div>', unsafe_allow_html=True)
 
-# FİNAL
+# Final
 st.balloons()
 st.markdown("<h1 style='text-align: center; font-family: Dancing Script; color: #ad1457; font-size: 70px;'>Seni Çok Seviyorum!</h1>", unsafe_allow_html=True)
 st.markdown("<div style='height: 300px;'></div>", unsafe_allow_html=True)
