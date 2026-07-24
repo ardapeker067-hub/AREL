@@ -1,10 +1,10 @@
 import streamlit as st
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # 1. Sayfa Ayarları
 st.set_page_config(page_title="Sonsuz Aşkımıza ❤️", page_icon="💖", layout="centered")
 
-# 2. CSS: Yan Panel, Arkaplan ve Kalpler
+# 2. CSS: Yan Panel ve Fotoğraf Kartları
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@1&display=swap');
@@ -14,10 +14,29 @@ st.markdown("""
         background: #fff5f7;
     }
     
-    /* Yan Panel (Sidebar) Rengi */
+    /* Yan Panel (Sidebar) Tasarımı */
     [data-testid="stSidebar"] {
-        background-color: #ffebee;
-        border-right: 2px solid #ffc1e3;
+        background: linear-gradient(180deg, #ffebee 0%, #fce4ec 100%);
+        border-right: 3px solid #ffc1e3;
+    }
+    
+    /* Yan Paneldeki Yazılar */
+    .st-emotion-cache-17fal0n { 
+        font-family: 'Dancing Script', cursive;
+        color: #ad1457;
+        font-size: 20px;
+    }
+
+    /* Fotoğraf Kartları (Geniş aralıklar ve şık çerçeve) */
+    .photo-card {
+        margin-top: 60px;
+        margin-bottom: 60px;
+        padding: 20px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        text-align: center;
+        border: 1px solid #fce4ec;
     }
 
     /* Kalpler */
@@ -34,104 +53,81 @@ st.markdown("""
         to { transform: translateY(110vh) rotate(360deg); }
     }
 
-    /* Fotoğraf Kartları */
-    .photo-card {
-        margin-top: 50px;
-        margin-bottom: 50px;
-        padding: 15px;
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        text-align: center;
-    }
-
-    .romantic-text {
-        font-family: 'Dancing Script', cursive;
-        font-size: 30px;
-        color: #ad1457;
-    }
-
-    /* SAĞDAKİ BİLET */
+    /* Müzik Bileti */
     .ticket-fixed {
         position: fixed;
-        right: 10px;
+        right: 15px;
         top: 20px;
         z-index: 9999;
-    }
-    .stButton>button {
-        background: #ff4081;
-        color: white;
-        border: 2px dashed white;
-        border-radius: 10px;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# Kalp Yağmuru
+# Arkaplan Kalpleri
 for i in range(25):
     left = i * 4
-    st.markdown(f'<div class="heart-bg" style="left:{left}%; animation-delay:{i*0.6}s; animation-duration:{7+i%3}s;">❤️</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="heart-bg" style="left:{left}%; animation-delay:{i*0.5}s; animation-duration:{8+i%3}s;">❤️</div>', unsafe_allow_html=True)
 
-# --- 3. YAN PANEL (SOL TARAF) ---
-st.sidebar.markdown("<h1 style='font-family: Dancing Script; color: #ad1457;'>📅 Anı Takvimi</h1>", unsafe_allow_html=True)
-secim = st.sidebar.radio("Bir Yıl Seç Sevgilim:", ["Ana Sayfa", "2023", "2024", "2025"])
+# --- 3. FOTOĞRAF LİSTELERİ (Buraya tüm fotoğraflarını ekle) ---
+# Kanka buradaki tırnakların içine GitHub'a yüklediğin tüm fotoğrafların adını yaz.
+fotos_2023 = ["2023_1.jpg", "2023_2.jpg", "2023_3.jpg", "2023_4.jpg"] # Burayı istediğin kadar uzat
+fotos_2024 = ["2024_1.jpg", "2024_2.jpg", "2024_3.jpg", "2024_4.jpg"]
+fotos_2025 = ["2025_1.jpg", "2025_2.jpg"]
 
-# --- 4. MÜZİK BİLETİ (Sağ Üstte) ---
-if 'music_on' not in st.session_state:
-    st.session_state.music_on = False
+# --- 4. YAN PANEL (SOL) ---
+with st.sidebar:
+    st.markdown("<h1 style='font-family: Dancing Script; color: #ad1457;'>🗓️ Anı Takvimi</h1>", unsafe_allow_html=True)
+    st.markdown("---")
+    secim = st.radio(
+        "Gezinmek istediğin yılı seç sevgilim:",
+        ["🏠 Ana Sayfa", "📅 2023", "📅 2024", "📅 2025"],
+        index=0
+    )
+    st.markdown("---")
+    st.write("Her yılın içinde bize ait bambaşka hikayeler saklı...")
+
+# --- 5. MÜZİK BİLETİ (Sağ Üst) ---
+if 'music' not in st.session_state: st.session_state.music = False
 
 st.markdown('<div class="ticket-fixed">', unsafe_allow_html=True)
 if st.button("🎫 Müzik"):
-    st.session_state.music_on = not st.session_state.music_on
+    st.session_state.music = not st.session_state.music
 st.markdown('</div>', unsafe_allow_html=True)
 
-if st.session_state.music_on:
+if st.session_state.music:
     try:
         audio_file = open('sarki.mp3', 'rb')
         st.audio(audio_file.read(), format='audio/mp3')
-    except:
-        st.sidebar.warning("sarki.mp3 yüklenmemiş!")
+    except: st.sidebar.error("sarki.mp3 yüklenmemiş!")
 
-# --- 5. İÇERİK YÖNETİMİ ---
+# --- 6. İÇERİK GÖSTERİMİ ---
 
-if secim == "Ana Sayfa":
+if "🏠 Ana Sayfa" in secim:
     st.markdown("<h1 style='text-align: center; font-family: Dancing Script; color: #ad1457; font-size: 55px;'>960 Günlük Hikayemiz</h1>", unsafe_allow_html=True)
     st.markdown('<div class="photo-card">', unsafe_allow_html=True)
     try:
-        st.image("foto1.jpg", use_column_width=True, caption="Her şeyin başladığı o an...")
-    except: st.write("foto1.jpg bekleniyor...")
+        st.image("foto1.jpg", use_column_width=True, caption="İyi ki varsın sevgilim...")
+    except: st.write("foto1.jpg yükleniyor...")
     st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; font-family: Dancing Script; font-size: 25px;'>Sol taraftaki takvimden yıllara tıklayarak tüm anılarımıza bakabilirsin ❤️</p>", unsafe_allow_html=True)
+
+else:
+    # Hangi yılın listesini kullanacağımızı seçiyoruz
+    yıl = secim.split(" ")[1] # "📅 2023" -> "2023"
+    st.markdown(f"<h1 style='text-align: center; font-family: Dancing Script; color: #ad1457;'>✨ {yıl} Anılarımız</h1>", unsafe_allow_html=True)
     
-    st.markdown("<h2 style='text-align:center; font-family: Dancing Script;'>Sol taraftaki menüden yıllara göz atabilirsin... ❤️</h2>", unsafe_allow_html=True)
-
-elif secim == "2023":
-    st.markdown("<h1 style='text-align: center; font-family: Dancing Script; color: #ad1457;'>✨ 2023 Anılarımız</h1>", unsafe_allow_html=True)
-    # 2023 Fotoğrafları
-    try:
+    # Fotoğraf listesini seçme
+    if yıl == "2023": hedef_liste = fotos_2023
+    elif yıl == "2024": hedef_liste = fotos_2024
+    else: hedef_liste = fotos_2025
+    
+    # Listedeki TÜM FOTOĞRAFLARI ekrana basma
+    for foto in hedef_liste:
         st.markdown('<div class="photo-card">', unsafe_allow_html=True)
-        st.image("2023_1.jpg", use_column_width=True)
-        st.write("2023'ün en güzel günü...")
+        try:
+            st.image(foto, use_column_width=True)
+        except:
+            st.write(f"⚠️ {foto} dosyası GitHub'da bulunamadı!")
         st.markdown('</div>', unsafe_allow_html=True)
-    except: st.info("Bu yıla ait fotoğraf (2023_1.jpg) henüz yüklenmedi.")
-
-elif secim == "2024":
-    st.markdown("<h1 style='text-align: center; font-family: Dancing Script; color: #ad1457;'>🌟 2024 Anılarımız</h1>", unsafe_allow_html=True)
-    try:
-        st.markdown('<div class="photo-card">', unsafe_allow_html=True)
-        st.image("2024_1.jpg", use_column_width=True)
-        st.write("Birlikte ne kadar da eğlenmiştik!")
-        st.markdown('</div>', unsafe_allow_html=True)
-    except: st.info("Bu yıla ait fotoğraf (2024_1.jpg) henüz yüklenmedi.")
-
-elif secim == "2025":
-    st.markdown("<h1 style='text-align: center; font-family: Dancing Script; color: #ad1457;'>🚀 2025 ve Geleceğimiz</h1>", unsafe_allow_html=True)
-    try:
-        st.markdown('<div class="photo-card">', unsafe_allow_html=True)
-        st.image("2025_1.jpg", use_column_width=True)
-        st.write("Yeni yıl, yeni umutlar, hep seninle...")
-        st.markdown('</div>', unsafe_allow_html=True)
-    except: st.info("Bu yıla ait fotoğraf (2025_1.jpg) henüz yüklenmedi.")
-
-# Final Balonları
-if secim != "Ana Sayfa":
+    
     st.balloons()
