@@ -4,7 +4,7 @@ import random
 # 1. Sayfa Ayarları
 st.set_page_config(page_title="Sonsuz Aşkımıza ❤️", page_icon="💖", layout="centered")
 
-# 2. CSS: Tasarım ve Boyutlar
+# 2. CSS: Tasarım ve Süslemeler
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@1&display=swap');
@@ -23,8 +23,8 @@ st.markdown("""
         margin: 15px auto; 
         padding: 5px;
         background: white;
-        border-radius: 4px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         text-align: center;
         border: 8px solid white;
     }
@@ -47,6 +47,18 @@ st.markdown("""
         line-height: 1.6;
         border-bottom: 1px solid #ffc1e3;
     }
+    
+    /* ÖZEL SÜSLÜ TROLL YAZISI */
+    .special-troll {
+        font-family: 'Dancing Script', cursive;
+        font-size: 28px;
+        color: #ff4081;
+        text-align: center;
+        font-weight: bold;
+        text-shadow: 2px 2px #ffebee;
+        padding: 20px 0;
+    }
+
     .troll-text {
         font-family: 'Comic Sans MS', cursive;
         font-size: 18px;
@@ -71,32 +83,27 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # --- 3. VERİ LİSTELERİ ---
-# Buraya fotoğraf adlarını eklemeyi unutma kanka
 dosyalar_2023 = ["2023_1.jpg", "2023_2.jpg", "2023_3.jpg"]
 dosyalar_2024 = ["2024_1.jpg", "2024_2.jpg", "2024_3.jpg"]
 dosyalar_2025 = ["2025_1.jpg", "2025_2.jpg"]
-dosyalar_troll = ["troll1.jpg", "troll2.jpg", "troll3.jpg"] # Troll fotolarını buraya ekle
+dosyalar_troll = ["troll1.jpg", "troll2.jpg", "troll3.jpg", "troll4.jpg"] 
 
 kisa_sozler = [
     "960 gün değil, bir ömür yetmez seni sevmeye...",
     "Gülüşünde hayat bulduğum kadın.",
     "Dünyanın en güzel kalbine sahipsin.",
-    "Seninle her an bir başka güzel sevgilim.",
-    "İyi ki yolumuz birleşmiş, iyi ki varsın."
+    "Seninle her an bir başka güzel sevgilim."
 ]
 
 uzun_sozler = [
-    "Bazen kelimeler yetmez ya hani, seni anlatmaya ne lügat yetiyor ne de şiirler. Sen benim başıma gelen en güzel mucizesin.",
-    "Zaman geçiyor, biz büyüyoruz, anılar birikiyor ama sana olan o ilk günkü heyecanım hiç azalmıyor. Aksine her gün daha da katlanıyor.",
-    "Seninle gülmek, seninle ağlamak, seninle saçmalamak... Hayatın her rengi seninle daha parlak."
+    "Sen benim başıma gelen en güzel mucizesin. Zaman geçiyor ama heyecanım hiç azalmıyor.",
+    "Seninle gülmek, seninle saçmalamak... Hayatın her rengi seninle daha parlak."
 ]
 
 troll_sozler = [
     "Tipe bak ya, nasıl sevmişim ben bunu? 😂",
-    "Güzelliğinin yanında benim karizmanın yerle bir olduğu o an...",
-    "Burada ne yapıyorduk hatırlayan var mı? jsdfkgjsdg",
     "Şekilden şekle girsek de yine en tatlı biziz!",
-    "Karizma desen yok, yakışıklılık desen yok ama aşk var kanka! 😎"
+    "Karizma desen yok ama aşk var kanka! 😎"
 ]
 
 # --- 4. YAN PANEL (SIDEBAR) ---
@@ -104,7 +111,6 @@ if 'page' not in st.session_state: st.session_state.page = "Ana Sayfa"
 
 with st.sidebar:
     st.markdown("<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457;'>💖 Aşk Menüsü</h1>", unsafe_allow_html=True)
-    
     if st.button("🏠 Ana Sayfa"): st.session_state.page = "Ana Sayfa"
     st.markdown("---")
     if st.button("📅 2023 Anıları"): st.session_state.page = "2023"
@@ -115,64 +121,58 @@ with st.sidebar:
     
     st.markdown("---")
     st.subheader("🎵 Bizim Şarkımız")
-    st.write("Taa Uzak Yollardan...")
-    try:
-        st.audio("sarki.mp3")
-    except:
-        st.error("Müzik dosyası (sarki.mp3) bulunamadı.")
+    try: st.audio("sarki.mp3")
+    except: st.error("Müzik dosyası (sarki.mp3) bulunamadı.")
 
-# --- 5. SAYFA FONKSİYONLARI ---
+# --- 5. TROLL SAYFASI ÖZEL DÖNGÜSÜ ---
 
-def album_ciz(liste, mod="romantik"):
-    for i, foto in enumerate(liste):
-        # Yazı kısmı
-        if mod == "romantik":
-            st.markdown(f"<div class='romantic-text'>{random.choice(kisa_sozler)}</div>", unsafe_allow_html=True)
+def troll_albumu_ciz():
+    for i, foto in enumerate(dosyalar_troll):
+        # 2. Fotoğraf (Index 1)
+        if i == 1:
+            st.markdown("<div class='special-troll'>✨ 👀 Gözlerine ölmemek elde mi? 👀 ✨</div>", unsafe_allow_html=True)
+        # 3. Fotoğraf (Index 2)
+        elif i == 2:
+            st.markdown("<div class='special-troll'>🌈 🍭 Tipe bak yerim ben bunu! 🍭 🌈</div>", unsafe_allow_html=True)
+        # Diğerleri rastgele
         else:
             st.markdown(f"<div class='troll-text'>✨ {random.choice(troll_sozler)}</div>", unsafe_allow_html=True)
             
-        # Fotoğraf kartı
         st.markdown('<div class="photo-card">', unsafe_allow_html=True)
-        try:
-            st.image(foto, use_column_width=True)
-        except:
-            st.write(f"🖼️ {foto} yüklenecek.")
+        try: st.image(foto, use_column_width=True)
+        except: st.write(f"🖼️ {foto}")
         st.markdown('</div>', unsafe_allow_html=True)
-        
-        # Araya uzun romantik metinler
-        if i % 2 == 0:
-            st.markdown(f"<div class='poem-text'>{random.choice(uzun_sozler)}</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align:center;'>🤡 😂 🤡</div>", unsafe_allow_html=True)
 
-# --- 6. SAYFA İÇERİKLERİ ---
+# --- 6. SAYFALAR ---
 
 if st.session_state.page == "Ana Sayfa":
     st.markdown("<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457; font-size:45px;'>Sonsuz Masalımız</h1>", unsafe_allow_html=True)
-    st.markdown(f"<div class='poem-text'>960 koca gün... Dile kolay, kalbe huzur. Seninle başladığımız bu yolculuğun her durağı ayrı bir hatıra.</div>", unsafe_allow_html=True)
     st.markdown('<div class="photo-card" style="max-width:320px;">', unsafe_allow_html=True)
-    st.image("foto1.jpg") # Ana fotoğrafın
+    try: st.image("foto1.jpg")
+    except: st.write("Ana Sayfa Resmi")
     st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown(f"<div class='romantic-text'>Tüm anılarımızı görmek için yandaki menüyü kullanabilirsin sevgilim. Müziği açmayı unutma! 🎵</div>", unsafe_allow_html=True)
-
-elif st.session_state.page == "2023":
-    st.markdown("<h2 style='text-align:center; font-family:Dancing Script;'>✨ 2023: Her Şeyin Başladığı Yer</h2>", unsafe_allow_html=True)
-    album_ciz(dosyalar_2023)
-    st.balloons()
-
-elif st.session_state.page == "2024":
-    st.markdown("<h2 style='text-align:center; font-family:Dancing Script;'>✨ 2024: Aşkla Büyüdüğümüz Yıl</h2>", unsafe_allow_html=True)
-    album_ciz(dosyalar_2024)
-    st.balloons()
-
-elif st.session_state.page == "2025":
-    st.markdown("<h2 style='text-align:center; font-family:Dancing Script;'>✨ 2025: Geleceğe İlk Adımlar</h2>", unsafe_allow_html=True)
-    album_ciz(dosyalar_2025)
-    st.balloons()
+    st.markdown(f"<div class='romantic-text'>960 koca gün sevgilim... Anılarımıza bakmaya hazır mısın?</div>", unsafe_allow_html=True)
 
 elif st.session_state.page == "Troll":
     st.markdown("<h1 style='text-align:center; font-family:Dancing Script; color:#ad1457;'>🤪 Bizim Halleri</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center;'>Biraz da gülelim dedik... İyi ki bu kadar saçmalayabiliyoruz!</p>", unsafe_allow_html=True)
-    album_ciz(dosyalar_troll, mod="troll")
-    st.snow() # Troll sayfasına kar yağdıralım değişiklik olsun :)
+    troll_albumu_ciz()
+    st.snow()
+
+elif st.session_state.page in ["2023", "2024", "2025"]:
+    yıl = st.session_state.page
+    liste = dosyalar_2023 if yıl == "2023" else dosyalar_2024 if yıl == "2024" else dosyalar_2025
+    st.markdown(f"<h2 style='text-align:center; font-family:Dancing Script;'>✨ {yıl} Anılarımız</h2>", unsafe_allow_html=True)
+    
+    for i, foto in enumerate(liste):
+        st.markdown(f"<div class='romantic-text'>{random.choice(kisa_sozler)}</div>", unsafe_allow_html=True)
+        st.markdown('<div class="photo-card">', unsafe_allow_html=True)
+        try: st.image(foto, use_column_width=True)
+        except: st.write(f"🖼️ {foto}")
+        st.markdown('</div>', unsafe_allow_html=True)
+        if i % 2 == 0:
+            st.markdown(f"<div class='poem-text'>{random.choice(uzun_sozler)}</div>", unsafe_allow_html=True)
+    st.balloons()
 
 # Arkaplan Kalpleri
 for i in range(15):
