@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 # 1. Sayfa Ayarları
 st.set_page_config(page_title="Sonsuz Aşkımıza ❤️", page_icon="💖", layout="centered")
 
-# 2. CSS: Arka Plan, Kalpler ve Yatay Bilet
+# 2. CSS: Tasarım, Kalpler ve Yatay Bilet
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@1&display=swap');
@@ -27,7 +27,7 @@ st.markdown("""
         to { transform: translateY(110vh) rotate(360deg); }
     }
 
-    /* Fotoğraf Kartları (150px boşluk) */
+    /* Fotoğraf Kartları (Geniş aralıklar) */
     .photo-card {
         margin-top: 150px;
         margin-bottom: 150px;
@@ -65,10 +65,15 @@ st.markdown("""
         font-size: 18px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
+
+    /* Müzik Çalar Stil */
+    .stAudio {
+        margin-top: 20px;
+    }
     </style>
     """, unsafe_allow_html=True)
 
-# Kalp Yağmuru
+# Arkaplan Kalpleri
 for i in range(30):
     left = i * 3.3
     st.markdown(f'<div class="heart-bg" style="left:{left}%; animation-delay:{i*0.5}s; animation-duration:{6+i%4}s;">❤️</div>', unsafe_allow_html=True)
@@ -77,17 +82,22 @@ for i in range(30):
 if 'music_open' not in st.session_state:
     st.session_state.music_open = False
 
-# Sağ tarafta yatay bilet
+# Sağdaki yatay bilet
 st.markdown('<div class="ticket-fixed">', unsafe_allow_html=True)
-if st.button("🎫 Müzik Bileti"):
+if st.button("🎫 Aşk Bileti"):
     st.session_state.music_open = not st.session_state.music_open
 st.markdown('</div>', unsafe_allow_html=True)
 
 if st.session_state.music_open:
-    st.markdown("🎵 **Nilüfer - Taa Uzak Yollardan** çalıyor...")
-    # Yeni ve daha kararlı bir link deniyoruz (YouTube embed hatasını önlemek için)
-    # Eğer bu da "Video unavailable" derse, YouTube o videonun dış sitelerde oynatılmasını yasaklamıştır.
-    st.video("https://www.youtube.com/watch?v=R_pY_1D_wWw") 
+    st.markdown("🎵 **Bizim Şarkımız Hazır...**")
+    try:
+        # Şarkıyı dosyadan okuyoruz
+        audio_file = open('sarki.mp3', 'rb')
+        audio_bytes = audio_file.read()
+        st.audio(audio_bytes, format='audio/mp3')
+        st.write("Play tuşuna basıp anılara kaydırabilirsin ❤️")
+    except:
+        st.warning("⚠️ 'sarki.mp3' dosyası henüz yüklenmemiş kanka. Lütfen GitHub'a yükle!")
 
 # 4. Ana İçerik
 st.markdown("<h1 style='text-align: center; font-family: Dancing Script; color: #ad1457; font-size: 60px;'>960 Günlük Hikayemiz</h1>", unsafe_allow_html=True)
@@ -97,7 +107,7 @@ st.markdown('<div class="photo-card">', unsafe_allow_html=True)
 try:
     st.image("foto1.jpg", use_column_width=True)
 except:
-    st.write("📸 foto1.jpg yüklenemedi")
+    st.write("📸 foto1.jpg bekleniyor...")
 st.markdown('</div>', unsafe_allow_html=True)
 st.markdown('<div class="romantic-text">"Taa uzak yollardan koştum geldim..."</div>', unsafe_allow_html=True)
 
@@ -106,19 +116,18 @@ st.markdown('<div class="photo-card">', unsafe_allow_html=True)
 try:
     st.image("foto2.jpg", use_column_width=True)
 except:
-    st.write("📸 foto2.jpg yüklenemedi")
+    st.write("📸 foto2.jpg bekleniyor...")
 st.markdown('</div>', unsafe_allow_html=True)
-st.markdown('<div class="romantic-text">"Her anımızda sen varsın."</div>', unsafe_allow_html=True)
+st.markdown('<div class="romantic-text">"Her nefesim seninle anlam buluyor."</div>', unsafe_allow_html=True)
 
-# --- KENDİ VİDEONUZ (Önemli Bölüm) ---
+# --- VİDEO ---
 st.markdown("<h2 style='text-align: center; font-family: Dancing Script; color: #ad1457;'>Bizim Hikayemiz</h2>", unsafe_allow_html=True)
 st.markdown('<div class="photo-card">', unsafe_allow_html=True)
 try:
-    # GitHub'a yüklediğin video.mp4 burayı çalıştırır
     video_file = open('video.mp4', 'rb')
     st.video(video_file.read())
 except:
-    st.error("Kendi videon (video.mp4) henüz yüklenmemiş kanka.")
+    st.error("video.mp4 bulunamadı!")
 st.markdown('</div>', unsafe_allow_html=True)
 
 # --- FOTO 3 ---
@@ -126,7 +135,7 @@ st.markdown('<div class="photo-card">', unsafe_allow_html=True)
 try:
     st.image("foto3.jpg", use_column_width=True)
 except:
-    st.write("📸 foto3.jpg yüklenemedi")
+    st.write("📸 foto3.jpg bekleniyor...")
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Final
